@@ -55,14 +55,24 @@
                     try {
                         if(time == "") throw "Time input is required";
                         if(date == "") throw "Date input is required";
-                        if(currentDateAndTime.getFullYear() > alarmDateAndTime.getFullYear()) throw "The current year is greater than the alarm's year";
-                        if(currentDateAndTime.getFullYear() > alarmDateAndTime.getFullYear() && currentDateAndTime.getMonth() > alarmDateAndTime.getMonth()) throw "The current month is greater than the alarm's month";
-                        if(currentDateAndTime.getUTCDate() > alarmDateAndTime.getUTCDate()) throw "The current day is greater than the alarm's day";
-                        if(currentDateAndTime.getUTCDate() > alarmDateAndTime.getUTCDate() && currentDateAndTime.getHours() > alarmDateAndTime.getHours()) throw "The current hour value is greater than the alarm's hour value";
-                        if(currentDateAndTime.getHours() > alarmDateAndTime.getHours() && currentDateAndTime.getMinutes() > alarmDateAndTime.getMinutes()) throw "The current minute is greater than the alarm's minute"
+                        if(currentDateAndTime.getFullYear() > alarmDateAndTime.getFullYear()) throw "The current year value: "+currentDateAndTime.getFullYear()+" is greater than the alarm's year value: "+alarmDateAndTime.getFullYear();
+                        while(currentDateAndTime.getFullYear() >= alarmDateAndTime.getFullYear()){
+                            const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+                            if(currentDateAndTime.getMonth() > alarmDateAndTime.getMonth()) throw "The current month value: "+month[currentDateAndTime.getUTCMonth()]+"  is greater than the alarm's month value: "+month[alarmDateAndTime.getUTCMonth()];
+                            if(currentDateAndTime.getUTCDate() > alarmDateAndTime.getUTCDate()) throw "The current day value: " +currentDateAndTime.getUTCDate()+" is greater than the alarm's day value: "+alarmDateAndTime.getUTCDate();
+                            while(currentDateAndTime.getUTCDate() >= alarmDateAndTime.getUTCDate()) {
+                                 if(currentDateAndTime.getHours() > alarmDateAndTime.getHours()) throw "The current hour value: "+currentDateAndTime.getHours()+" is greater than the alarm's hour value: "+alarmDateAndTime.getHours();
+                                 break;
+                            }
+                            while(currentDateAndTime.getHours() >= alarmDateAndTime.getHours()) {
+                                 if(currentDateAndTime.getMinutes() > alarmDateAndTime.getMinutes()) throw "The current minute value: "+currentDateAndTime.getMinutes()+" is greater than the alarm's minute value: "+alarmDateAndTime.getMinutes();
+                                break;
+                             }
+                            break;
+                        }
                         currentDateAndTime.setSeconds(0);
-                        if(currentDateAndTime.toString() == alarmDateAndTime.toString()) throw "The alarm's date and time is the same as the current date and time";
-                        document.getElementById("alarm").innerHTML = "<h2><small>Alarm is set for: </small><span id='dateDisp'>" + alarmDateAndTime.toLocaleDateString() +"</span>, <span id='timeDisp'>"+ alarmDateAndTime.toLocaleTimeString() + "</span></h2>";
+                        if(currentDateAndTime.toString() == alarmDateAndTime.toString()) throw "The alarm's date and time value: "+alarmDateAndTime.toLocaleDateString()+", "+alarmDateAndTime.toLocaleTimeString()+" was the same as the current date and time value";
+                        document.getElementById("alarm").innerHTML = "<h2><small>Alarm is set for: </small><span id='dateDisp'>" +alarmDateAndTime.toLocaleDateString()+"</span>, <span id='timeDisp'>"+alarmDateAndTime.toLocaleTimeString()+"</span></h2>";
                         alarmInterval = setInterval(function(){
                            if (currentDateAndTime.toString() == alarmDateAndTime.toString()) {
                                 alarmStop();
